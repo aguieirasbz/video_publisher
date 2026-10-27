@@ -10,13 +10,20 @@ from google import genai
 class GeminiClient:
     def __init__(self) -> None:
         api_key = os.getenv("GEMINI_API_KEY")
-        self.text_model = os.getenv("GEMINI_TEXT_MODEL") or "gemini-3.8-flash"
-        self.image_model = os.getenv("GEMINI_IMAGE_MODEL") or "gemini-nano-banana-2.1"
+        self.text_model = self._normalize_model(os.getenv("GEMINI_TEXT_MODEL"), "gemini-3.8-flash")
+        self.image_model = self._normalize_model(os.getenv("GEMINI_IMAGE_MODEL"), "gemini-nano-banana-2.1")
         if not api_key:
             raise RuntimeError("GEMINI_API_KEY não foi configurada.")
         if self.text_model == "modelo_de_texto" or self.image_model == "modelo_de_imagem":
             raise RuntimeError("Substitua os placeholders GEMINI_TEXT_MODEL e GEMINI_IMAGE_MODEL por modelos reais ou deixe as variáveis vazias para usar os padrões.")
         self.client = genai.Client(api_key=api_key)
+
+    @staticmethod
+    def _normalize_model(value: str | None, default: str) -> str:
+        model = (value or default).strip().strip('"\'')
+        if model.startswith("models/"):
+            model = model[7:]
+        return model
 
     def generate_script(self, title: str, instructions: str | None) -> str:
         prompt = (
