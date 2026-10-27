@@ -5,6 +5,7 @@ import os
 from pathlib import Path
 
 from google import genai
+from google.genai import types
 
 
 class GeminiClient:
@@ -16,7 +17,13 @@ class GeminiClient:
             raise RuntimeError("GEMINI_API_KEY não foi configurada.")
         if self.text_model == "modelo_de_texto" or self.image_model == "modelo_de_imagem":
             raise RuntimeError("Substitua os placeholders GEMINI_TEXT_MODEL e GEMINI_IMAGE_MODEL por modelos reais ou deixe as variáveis vazias para usar os padrões.")
-        self.client = genai.Client(api_key=api_key)
+        self.client = genai.Client(
+            api_key=api_key,
+            http_options=types.HttpOptions(
+                timeout=120_000,
+                retry_options=types.HttpRetryOptions(attempts=1),
+            ),
+        )
 
     @staticmethod
     def _normalize_model(value: str | None, default: str) -> str:
