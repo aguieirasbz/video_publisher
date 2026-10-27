@@ -41,6 +41,8 @@ As consultas autenticadas `GET /api/v1/assuntos` e `GET /api/v1/canais` retornam
 
 Também estão disponíveis as consultas autenticadas `GET /api/v1/configuracoes`, `GET /api/v1/rotinas` e `GET /api/v1/historico`.
 
+Com Bearer Token e os escopos correspondentes, a API também oferece `GET /api/v1/fila/assuntos`, `POST /api/v1/execucoes`, `POST /api/v1/execucoes/logs` e `POST /api/v1/execucoes/encerrar`. Esses endpoints apenas controlam a fila e os registros de execução; não geram vídeos nem publicam conteúdo.
+
 A autenticação Bearer para integrações externas está documentada em `docs/api-auth.md` e implementada para o endpoint `/api/v1/me`. A tabela `api_tokens` foi criada pela migração aprovada.
 
 ## Esquema analisado

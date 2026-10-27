@@ -15,6 +15,7 @@ use App\Http\Controllers\Api\DashboardController as ApiDashboardController;
 use App\Http\Controllers\Api\HealthController;
 use App\Http\Controllers\Api\CatalogController;
 use App\Http\Controllers\Api\MeController;
+use App\Http\Controllers\Api\ExecutionController;
 use App\Http\Controllers\ApiTokenController;
 
 $router = new Router();
@@ -56,6 +57,10 @@ $router->get('/api/v1/configuracoes', [CatalogController::class, 'configurations
 $router->get('/api/v1/rotinas', [CatalogController::class, 'routines']);
 $router->get('/api/v1/historico', [CatalogController::class, 'history']);
 $router->get('/api/v1/me', [MeController::class, 'index']);
+$router->get('/api/v1/fila/assuntos', [ExecutionController::class, 'pendingSubjects']);
+$router->post('/api/v1/execucoes', [ExecutionController::class, 'start']);
+$router->post('/api/v1/execucoes/logs', [ExecutionController::class, 'log']);
+$router->post('/api/v1/execucoes/encerrar', [ExecutionController::class, 'finish']);
 $router->get('/tokens', [ApiTokenController::class, 'index']);
 $router->get('/tokens/novo', [ApiTokenController::class, 'create']);
 $router->post('/tokens/salvar', [ApiTokenController::class, 'store']);

@@ -23,4 +23,13 @@ final class BearerTokenMiddleware
         }
         return $token;
     }
+
+    public static function requireScope(array $token, string $requiredScope): void
+    {
+        $scopes = array_filter(array_map('trim', explode(',', (string) $token['escopos'])));
+        if (!in_array($requiredScope, $scopes, true)) {
+            JsonResponse::send(['error' => 'O token não possui o escopo necessário.', 'required_scope' => $requiredScope], 403);
+            exit;
+        }
+    }
 }
