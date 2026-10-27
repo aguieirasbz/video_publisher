@@ -69,9 +69,10 @@ final class GenerationConfigController
     private function validatedData(): array
     {
         $name = trim((string) ($_POST['nome'] ?? ''));
+        $language = trim((string) ($_POST['idioma'] ?? 'pt-BR'));
         $duration = filter_input(INPUT_POST, 'duracao_alvo_segundos', FILTER_VALIDATE_INT, ['options' => ['min_range' => 1, 'max_range' => 3600]]);
         $fps = filter_input(INPUT_POST, 'fps', FILTER_VALIDATE_INT, ['options' => ['min_range' => 1, 'max_range' => 120]]);
-        if ($name === '' || mb_strlen($name) > 120 || $duration === false || $fps === false) {
+        if ($name === '' || mb_strlen($name) > 120 || $language === '' || mb_strlen($language) > 15 || $duration === false || $fps === false) {
             http_response_code(422);
             exit('Dados inválidos para a configuração.');
         }
@@ -84,8 +85,8 @@ final class GenerationConfigController
 
         return [
             'nome' => $name, 'duracao' => $duration, 'largura' => 1080, 'altura' => 1920, 'fps' => $fps,
-            'idioma' => trim((string) ($_POST['idioma'] ?? 'pt-BR')), 'roteiro' => $this->nullablePost('provedor_roteiro'),
-            'imagem' => $this->nullablePost('provedor_imagem'), 'voz' => $this->nullablePost('provedor_voz'), 'voz_id' => $this->nullablePost('voz_id'),
+            'idioma' => $language, 'roteiro' => $this->limitedNullablePost('provedor_roteiro', 70),
+            'imagem' => $this->limitedNullablePost('provedor_imagem', 70), 'voz' => $this->limitedNullablePost('provedor_voz', 70), 'voz_id' => $this->limitedNullablePost('voz_id', 120),
             'legendas' => trim((string) ($_POST['estilo_legendas'] ?? 'central')), 'movimento' => trim((string) ($_POST['estilo_movimento'] ?? 'ken_burns')),
             'extras' => $extras, 'ativo' => isset($_POST['ativo']) ? 1 : 0,
         ];
@@ -95,6 +96,16 @@ final class GenerationConfigController
     {
         $value = trim((string) ($_POST[$key] ?? ''));
         return $value === '' ? null : $value;
+    }
+
+    private function limitedNullablePost(string $key, int $maxLength): ?string
+    {
+        $value = $this->nullablePost($key);
+        if ($value !== null && mb_strlen($value) > $maxLength) {
+            http_response_code(422);
+            exit('Valor excede o limite permitido.');
+        }
+        return $value;
     }
 
     private function validateCsrf(): void

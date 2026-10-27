@@ -14,7 +14,30 @@ O primeiro administrador deve ser criado de forma controlada no banco usando um 
 
 ## cPanel / HostGator
 
-Envie o projeto sem `.env`, `vendor/` opcionalmente, e configure o document root do domínio para `public/`. Crie o `.env` no diretório privado do projeto, execute `composer install --no-dev` via SSH ou envie `vendor/`, e configure o banco com o prefixo fornecido pelo cPanel. Não publique o arquivo `.env` nem a pasta `storage` diretamente.
+Envie o projeto sem `.env`, `vendor/` opcionalmente, e configure o document root do domínio para `public/`. O arquivo `public/.htaccess` encaminha as rotas ao front controller. Crie o `.env` no diretório privado do projeto, execute `composer install --no-dev` via SSH ou envie `vendor/`, e configure o banco com o prefixo fornecido pelo cPanel. Não publique o arquivo `.env` nem a pasta `storage` diretamente.
+
+### Apache local
+
+O projeto não deve ser acessado como `http://localhost/video_publisher` enquanto a pasta estiver fora do document root do Apache. Aponte um VirtualHost ou Alias para `C:/projetos_andre/video_publisher/public`, habilite `AllowOverride All` e reinicie o Apache. Exemplo de VirtualHost:
+
+```apache
+<VirtualHost *:80>
+    ServerName autoshorts.local
+    DocumentRoot "C:/projetos_andre/video_publisher/public"
+    <Directory "C:/projetos_andre/video_publisher/public">
+        AllowOverride All
+        Require all granted
+    </Directory>
+</VirtualHost>
+```
+
+Alternativamente, use o servidor PHP local: `php -S localhost:8000 -t public` e acesse `http://localhost:8000/login`.
+
+## API inicial
+
+`GET /api/v1/health` verifica a aplicação e a conexão com o banco, sem autenticação. `GET /api/v1/dashboard` retorna os indicadores do administrador autenticado e exige a sessão do painel. Autenticação própria para GitHub Actions será definida em etapa futura, sem armazenar tokens até existir uma decisão de segurança e uma estrutura de banco aprovada.
+
+As consultas autenticadas `GET /api/v1/assuntos` e `GET /api/v1/canais` retornam os cadastros do administrador conectado. Nesta etapa a API não altera registros nem executa processamento externo.
 
 ## Esquema analisado
 
