@@ -21,7 +21,11 @@ class GeminiClient:
             api_key=api_key,
             http_options=types.HttpOptions(
                 timeout=120_000,
-                retry_options=types.HttpRetryOptions(attempts=1),
+                retry_options=types.HttpRetryOptions(
+                    attempts=3,
+                    initial_delay=2,
+                    max_delay=15,
+                ),
             ),
         )
 
