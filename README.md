@@ -39,6 +39,10 @@ Alternativamente, use o servidor PHP local: `php -S localhost:8000 -t public` e 
 
 As consultas autenticadas `GET /api/v1/assuntos` e `GET /api/v1/canais` retornam os cadastros do administrador conectado. Nesta etapa a API não altera registros nem executa processamento externo.
 
+Também estão disponíveis as consultas autenticadas `GET /api/v1/configuracoes`, `GET /api/v1/rotinas` e `GET /api/v1/historico`.
+
+A proposta de autenticação Bearer para integrações externas está documentada em `docs/api-auth.md` e em `database/migrations/001_create_api_tokens.sql`. A migração não foi executada.
+
 ## Esquema analisado
 
 A autenticação usa somente as colunas existentes em `usuarios`: `id`, `nome`, `email`, `senha_hash`, `perfil`, `ativo` e `ultimo_login_em`. Nenhuma migração foi criada ou executada.

@@ -50,5 +50,8 @@ $router->get('/api/v1/health', [HealthController::class, 'index']);
 $router->get('/api/v1/dashboard', [ApiDashboardController::class, 'index']);
 $router->get('/api/v1/assuntos', [CatalogController::class, 'subjects']);
 $router->get('/api/v1/canais', [CatalogController::class, 'channels']);
+$router->get('/api/v1/configuracoes', [CatalogController::class, 'configurations']);
+$router->get('/api/v1/rotinas', [CatalogController::class, 'routines']);
+$router->get('/api/v1/historico', [CatalogController::class, 'history']);
 
 return $router;
