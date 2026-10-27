@@ -14,6 +14,8 @@ use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\Api\DashboardController as ApiDashboardController;
 use App\Http\Controllers\Api\HealthController;
 use App\Http\Controllers\Api\CatalogController;
+use App\Http\Controllers\Api\MeController;
+use App\Http\Controllers\ApiTokenController;
 
 $router = new Router();
 $router->get('/', [DashboardController::class, 'index']);
@@ -53,5 +55,10 @@ $router->get('/api/v1/canais', [CatalogController::class, 'channels']);
 $router->get('/api/v1/configuracoes', [CatalogController::class, 'configurations']);
 $router->get('/api/v1/rotinas', [CatalogController::class, 'routines']);
 $router->get('/api/v1/historico', [CatalogController::class, 'history']);
+$router->get('/api/v1/me', [MeController::class, 'index']);
+$router->get('/tokens', [ApiTokenController::class, 'index']);
+$router->get('/tokens/novo', [ApiTokenController::class, 'create']);
+$router->post('/tokens/salvar', [ApiTokenController::class, 'store']);
+$router->post('/tokens/revogar', [ApiTokenController::class, 'revoke']);
 
 return $router;

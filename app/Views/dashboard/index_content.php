@@ -9,6 +9,7 @@
     <div class="col-md-6"><a class="btn btn-primary w-100 py-3" href="/historico">Histórico</a></div>
     <div class="col-md-6"><a class="btn btn-primary w-100 py-3" href="/rotinas">Rotinas de publicação</a></div>
     <div class="col-md-6"><a class="btn btn-primary w-100 py-3" href="/usuarios">Administradores</a></div>
+    <div class="col-md-6"><a class="btn btn-primary w-100 py-3" href="/tokens">Tokens de API</a></div>
 </div>
 <div class="row g-3 mb-4">
     <?php $cards = [['Assuntos cadastrados', 'assuntos_total', 'primary'], ['Assuntos pendentes', 'assuntos_pendentes', 'warning'], ['Vídeos gerados', 'videos_gerados', 'success'], ['Publicações agendadas', 'publicacoes_agendadas', 'info'], ['Publicações realizadas', 'publicacoes_realizadas', 'dark'], ['Falhas', 'falhas', 'danger']]; ?>

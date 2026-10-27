@@ -41,7 +41,7 @@ As consultas autenticadas `GET /api/v1/assuntos` e `GET /api/v1/canais` retornam
 
 Também estão disponíveis as consultas autenticadas `GET /api/v1/configuracoes`, `GET /api/v1/rotinas` e `GET /api/v1/historico`.
 
-A proposta de autenticação Bearer para integrações externas está documentada em `docs/api-auth.md` e em `database/migrations/001_create_api_tokens.sql`. A migração não foi executada.
+A autenticação Bearer para integrações externas está documentada em `docs/api-auth.md` e implementada para o endpoint `/api/v1/me`. A tabela `api_tokens` foi criada pela migração aprovada.
 
 ## Esquema analisado
 
