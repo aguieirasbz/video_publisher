@@ -5,5 +5,7 @@
 <div class="row g-3 mb-4">
     <div class="col-md-6"><a class="btn btn-primary w-100 py-3" href="/configuracoes">Configurações de geração</a></div>
     <div class="col-md-6"><a class="btn btn-primary w-100 py-3" href="/assuntos">Assuntos</a></div>
+    <div class="col-md-6"><a class="btn btn-primary w-100 py-3" href="/canais">Canais</a></div>
+    <div class="col-md-6"><a class="btn btn-primary w-100 py-3" href="/historico">Histórico</a></div>
 </div>
 <div class="alert alert-info">Os indicadores do dashboard serão conectados aos históricos na etapa correspondente.</div>

@@ -7,6 +7,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GenerationConfigController;
 use App\Http\Controllers\SubjectController;
+use App\Http\Controllers\ChannelController;
+use App\Http\Controllers\HistoryController;
 
 $router = new Router();
 $router->get('/', [DashboardController::class, 'index']);
@@ -25,5 +27,10 @@ $router->get('/assuntos/editar', [SubjectController::class, 'edit']);
 $router->post('/assuntos/salvar', [SubjectController::class, 'save']);
 $router->post('/assuntos/lote', [SubjectController::class, 'bulk']);
 $router->post('/assuntos/excluir', [SubjectController::class, 'delete']);
+$router->get('/canais', [ChannelController::class, 'index']);
+$router->get('/canais/novo', [ChannelController::class, 'create']);
+$router->get('/canais/editar', [ChannelController::class, 'edit']);
+$router->post('/canais/salvar', [ChannelController::class, 'save']);
+$router->get('/historico', [HistoryController::class, 'index']);
 
 return $router;
