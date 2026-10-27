@@ -25,8 +25,8 @@ final class ExecutionController
         $subjectId = filter_var($input['assunto_id'] ?? null, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
         $idempotency = trim((string) ($input['idempotencia_chave'] ?? ''));
         if ($subjectId === false || $idempotency === '' || mb_strlen($idempotency) > 190) { JsonResponse::send(['error' => 'assunto_id e idempotencia_chave são obrigatórios.'], 422); return; }
-        try { $id = (new Execution())->start((int) $token['usuario_id'], $subjectId, $idempotency); } catch (\InvalidArgumentException|\RuntimeException $exception) { JsonResponse::send(['error' => $exception->getMessage()], 409); return; }
-        JsonResponse::send(['data' => ['execucao_id' => $id, 'status' => 'iniciada']], 201);
+        try { $execution = (new Execution())->start((int) $token['usuario_id'], $subjectId, $idempotency); } catch (\InvalidArgumentException|\RuntimeException $exception) { JsonResponse::send(['error' => $exception->getMessage()], 409); return; }
+        JsonResponse::send(['data' => ['execucao_id' => $execution['id'], 'assunto_id' => $execution['assunto_id'], 'titulo' => $execution['titulo'], 'bloqueio_token' => $execution['bloqueio_token'], 'status' => 'iniciada']], 201);
     }
 
     public function log(): void

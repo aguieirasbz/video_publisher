@@ -45,6 +45,10 @@ Com Bearer Token e os escopos correspondentes, a API também oferece `GET /api/v
 
 A autenticação Bearer para integrações externas está documentada em `docs/api-auth.md` e implementada para o endpoint `/api/v1/me`. A tabela `api_tokens` foi criada pela migração aprovada.
 
+Para o worker de geração, configure `GEMINI_API_KEY` no `.env` local e como segredo do GitHub Actions. Nunca coloque a chave no código ou a envie pelo chat.
+
+O workflow manual está em `.github/workflows/generate-media.yml`. No GitHub, cadastre os secrets `GEMINI_API_KEY`, `GEMINI_TEXT_MODEL` e `GEMINI_IMAGE_MODEL`. Depois use `Actions → Gerar roteiro e imagens → Run workflow`, informe o título e baixe o artefato gerado.
+
 ## Esquema analisado
 
 A autenticação usa somente as colunas existentes em `usuarios`: `id`, `nome`, `email`, `senha_hash`, `perfil`, `ativo` e `ultimo_login_em`. Nenhuma migração foi criada ou executada.

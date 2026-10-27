@@ -1,0 +1,61 @@
+name: Gerar roteiro e imagens
+
+on:
+  workflow_dispatch:
+    inputs:
+      titulo:
+        description: 'Título do assunto'
+        required: true
+        type: string
+      instrucoes:
+        description: 'Instruções adicionais'
+        required: false
+        default: ''
+        type: string
+      imagens:
+        description: 'Quantidade de imagens'
+        required: false
+        default: '2'
+        type: string
+
+jobs:
+  generate-media:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    env:
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      GEMINI_TEXT_MODEL: ${{ secrets.GEMINI_TEXT_MODEL }}
+      GEMINI_IMAGE_MODEL: ${{ secrets.GEMINI_IMAGE_MODEL }}
+    steps:
+      - name: Baixar código
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Instalar dependências
+        run: python -m pip install -r worker/requirements.txt
+
+      - name: Validar secrets
+        shell: bash
+        run: |
+          test -n "$GEMINI_API_KEY" || { echo "GEMINI_API_KEY não configurada"; exit 1; }
+          test -n "$GEMINI_TEXT_MODEL" || { echo "GEMINI_TEXT_MODEL não configurado"; exit 1; }
+          test -n "$GEMINI_IMAGE_MODEL" || { echo "GEMINI_IMAGE_MODEL não configurado"; exit 1; }
+
+      - name: Gerar roteiro e imagens
+        run: >-
+          python worker/main.py
+          --titulo "${{ inputs.titulo }}"
+          --instrucoes "${{ inputs.instrucoes }}"
+          --imagens "${{ inputs.imagens }}"
+
+      - name: Armazenar resultado
+        uses: actions/upload-artifact@v4
+        with:
+          name: generated-media-${{ github.run_number }}
+          path: worker/output/
+          if-no-files-found: error
